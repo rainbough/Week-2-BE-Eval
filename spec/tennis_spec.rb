@@ -37,11 +37,10 @@ describe Tennis::Game do
   describe '#end_game' do
     context 'when either player score is greater than 2' do
       it 'returns game status message based upon scores' do
-        game.player1.points = 5
-        game.player2.points = 3
+        game.player1.points = 3
+        game.player2.points = 5
       
-
-        expect(game.end_game(game.player1, game.player2)).to eq('player1 wins')
+        expect(game.end_game(game.player1, game.player2)).to eq('player2 wins')
 
       end
     end

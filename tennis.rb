@@ -45,6 +45,10 @@ module Tennis
       end
     end
 
+    #checks to see if a points value passed in is greater than 2.
+    #if the points of either player exceed 2 the end_game method is called
+    #otherwise the message "keep playing" is returned.
+    #
     def greater_than_2?(player)
       if player.points > 2
         true
@@ -56,10 +60,10 @@ module Tennis
     def end_game(player1, player2)
    
       return "deuce" if player1.points == player2.points
-      return "#{player1} wins" if player1.points >= 4 && player1.points >= player2.points + 2
-      return "#{player2} wins" if player2.points >= 4 && player2.points >= player1.points + 2
-      return "#{player1} advantage" if player1.points > player2.points
-      return "#{player2} advantage" if player2.points > player1.points
+      return "player1 wins" if player1.points >= 4 && player1.points >= player2.points + 2
+      return "player2 wins" if player2.points >= 4 && player2.points >= player1.points + 2
+      return "player1 advantage" if player1.points > player2.points
+      return "player2 advantage" if player2.points > player1.points
   
     end
   end
