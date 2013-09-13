@@ -53,26 +53,17 @@ module Tennis
       end
     end
 
-    def end_game(player, opponent)
-      player_score = player.points
-      opponent_score = opponent.points
-      case player
-        when player_score == opponent_score
-          "deuce"
-        when player_score >= 4 && player_score >= opponent_score + 2
-          return "#{player} wins"
-        when opponent_score >= 4 && opponent_score >= player_score + 2
-          return "#{opponent} wins"
-        when player_score > opponent_score
-          "#{player} advantage"
-        when opponent_score > player_score
-          "{opponent} advantage"
-        else 
-          "error"
-      end
-    
+    def end_game(player1, player2)
+   
+      return "deuce" if player1.points == player2.points
+      return "#{player1} wins" if player1.points >= 4 && player1.points >= player2.points + 2
+      return "#{player2} wins" if player2.points >= 4 && player2.points >= player1.points + 2
+      return "#{player1} advantage" if player1.points > player2.points
+      return "#{player2} advantage" if player2.points > player1.points
+  
     end
   end
+
 
   class Player
     attr_accessor :points, :opponent
