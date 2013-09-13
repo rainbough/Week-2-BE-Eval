@@ -34,12 +34,13 @@ describe Tennis::Game do
   end
  
 
-  describe '#game_status' do
-    context 'when score is tied' do
-      it 'returns deuce' do
-        game.game_status(2,2)
+  describe '#end_game' do
+    context 'when either player score is greater than 2' do
+      it 'returns game status message based upon scores' do
+        game.player1.points = 5 && game.player2.points = 3
+      
 
-        expect(game.gstatus).to eq('deuce')
+        expect(game.end_game(game.player1, game.player2)).to eq('player1 wins')
 
       end
     end

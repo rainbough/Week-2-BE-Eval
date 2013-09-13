@@ -41,7 +41,7 @@ module Tennis
       if greater_than_2?(@player1) || greater_than_2?(@player2)
         self.end_game(@player1, @player2)
       else
-        puts "Keep playing!"
+        return "Keep playing!"
       end
     end
 
@@ -54,18 +54,18 @@ module Tennis
     end
 
     def end_game(player, opponent)
-      player = player.points
-      opponent = opponent.points
+      player_score = player.points
+      opponent_score = opponent.points
       case player
-        when player == opponent
+        when player_score == opponent_score
           "deuce"
-        when player >=4 && player >= opponent + 2
+        when player_score >= 4 && player_score >= opponent_score + 2
           return "#{player} wins"
-        when opponent >=4 && opponent >= player + 2
-          returns "#{opponent} wins"
-        when player > opponent
+        when opponent_score >= 4 && opponent_score >= player_score + 2
+          return "#{opponent} wins"
+        when player_score > opponent_score
           "#{player} advantage"
-        when opponent > player
+        when opponent_score > player_score
           "{opponent} advantage"
         else 
           "error"
