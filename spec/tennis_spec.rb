@@ -25,6 +25,31 @@ describe Tennis::Game do
       expect(game.player1.points).to eq(1)
     end
   end
+  describe '#check_status' do
+    it 'returns the game status' do
+      game.player1.points = 1 && game.player2.points = 2
+
+      expect(game.check_status).to eq('Keep playing!')
+    end
+  end
+ 
+
+  describe '#game_status' do
+    context 'when score is tied' do
+      it 'returns deuce' do
+        game.game_status(2,2)
+
+        expect(game.gstatus).to eq('deuce')
+
+      end
+    end
+    
+  
+    context 'when a player wins' do
+      it 'returns wins' do
+      end
+    end
+  end
 end
 
 describe Tennis::Player do

@@ -11,6 +11,7 @@ module Tennis
     def initialize
       @player1 = Player.new
       @player2 = Player.new
+      @gstatus = "new"
 
       @player1.opponent = @player2
       @player2.opponent = @player1
@@ -31,6 +32,45 @@ module Tennis
       else
         puts "Please enter player number."
       end
+    end
+
+    # sets variables for player1 points and player 2 points
+    # then passes these variables into the game_status method
+    # and returns game status
+    def check_status
+      if greater_than_2?(@player1) || greater_than_2?(@player2)
+        self.end_game(@player1, @player2)
+      else
+        puts "Keep playing!"
+      end
+    end
+
+    def greater_than_2?(player)
+      if player.points > 2
+        true
+      else
+        false
+      end
+    end
+
+    def end_game(player, opponent)
+      player = player.points
+      opponent = opponent.points
+      case player
+        when player == opponent
+          "deuce"
+        when player >=4 && player >= opponent + 2
+          return "#{player} wins"
+        when opponent >=4 && opponent >= player + 2
+          returns "#{opponent} wins"
+        when player > opponent
+          "#{player} advantage"
+        when opponent > player
+          "{opponent} advantage"
+        else 
+          "error"
+      end
+    
     end
   end
 
