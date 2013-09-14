@@ -2,11 +2,12 @@
 
 module Game
 	class Game_play
-
+		#sets the status of the current game to "new"
 		def intialize
 			@current_game = 'new'
 	  	
 		end
+		#returns the string "We're playing tennis!"
 		def to_s
 			"We're playing tennis!"
 		end
@@ -23,6 +24,7 @@ module Game
 			if answer == 'n'
 				puts "Have a nice day."
 			else
+				puts "Great! You are Player1."
 				self.coin_toss_call
 			end
 			
@@ -47,20 +49,30 @@ module Game
 			end
 		end
 
+		#toss results takes a call as argument passes it to the results of a call to the cointoss method
+		#then determines a winner of the toss
 		def toss_results(call)
 			toss = self.cointoss
 			toss_string ="you called #{call} and the toss returned #{toss}."
 			if call ==  toss
 				puts toss_string
 				puts "you won the coin toss."
+				puts "You get to serve first."
+				#call player2_serve
 			elsif call != toss
 				puts toss_string
 				puts "you lost the coin toss."
+				puts "Your opponent (Player2) will serve first."
+				#call player1_serve
 			else
 				"error"
 			end
 		end
 
+		#cointoss generates a random number between 1 and 10 and saves it in the 'number' variable.
+		#If the number generated is less than or equal to five the method returns "heads".
+		#If the random number is greater than 5 coin toss returns "tails."
+		#
 		def cointoss
 			number = rand(1..10)
 				return "heads" if number <= 5
