@@ -30,6 +30,10 @@ describe Tennis::Game do
       game.player1.points = 1 && game.player2.points = 2
 
       expect(game.check_status).to eq('Keep playing!')
+
+      game.player1.points = 3 && game.player2.points = 3
+      
+      expect(game.check_status).to eq('deuce')
     end
   end
  

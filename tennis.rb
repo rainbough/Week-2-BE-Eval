@@ -11,7 +11,6 @@ module Tennis
     def initialize
       @player1 = Player.new
       @player2 = Player.new
-      @gstatus = "new"
 
       @player1.opponent = @player2
       @player2.opponent = @player1
@@ -56,6 +55,10 @@ module Tennis
         false
       end
     end
+
+    #end_game is called from check status and implements the point system of the later part of the game.
+    #
+    #
 
     def end_game(player1, player2)
    
