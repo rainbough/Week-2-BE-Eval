@@ -27,7 +27,7 @@ describe Tennis::Game do
   end
   describe '#check_status' do
     it 'returns the game status' do
-      game.player1.points = 1 && game.player2.points = 2
+      game.player1.points = 1 && game.player2.points = 0
 
       expect(game.check_status).to eq('Keep playing!')
 

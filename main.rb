@@ -42,7 +42,7 @@ module Controller
 			puts "Please call 'heads' or 'tails'"
 			call = gets.chomp.downcase
 			unless call == 'heads' || call == 'tails'
-				puts "resonse not understood. Hit 't' to try again."
+				puts "response not understood. Hit 't' to try again."
 				response = gets.chomp.downcase
 				if response == "t"
 					self.coin_toss_call
@@ -143,6 +143,7 @@ module Controller
 
 		#This method initiates a new serve and calls the rally method.
 		def new_serve(server)
+			puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 			puts "#{$hitter} serves the ball."
 			puts "hit any letter to continue 'q' to quit."
 			result = gets.chomp.downcase
@@ -158,20 +159,24 @@ module Controller
 		#This method alternates which player is the server and then passes the new
 		#server to the new_serve method.
 		def switch_serve(server)
-			if server == @player1
-				server = @player2
-				$hitter = "player2"
-				$hit_num =  2
-				$defender = "player1"
-				$def_num = 1
+			if @current_game.check_status == "player1 wins" ||  @current_game.check_status == "player2 wins"
+				self.start
 			else
-				server = @player1
-				$hitter = "player1"
-				$hit_num = 1
-				$defender = "player2"
-				$def_num = 2
+				if server == @player1
+					server = @player2
+					$hitter = "player2"
+					$hit_num =  2
+					$defender = "player1"
+					$def_num = 1
+				else
+					server = @player1
+					$hitter = "player1"
+					$hit_num = 1
+					$defender = "player2"
+					$def_num = 2
+				end
+				new_serve(server)
 			end
-			new_serve(server)
 		end
 
 		#This is the main action of the game
@@ -184,38 +189,35 @@ module Controller
 			rally = game_action(num)
 			case rally
 				when "oob" 
-					puts "_____________________________"
+					puts "oo-oo-oo-oo-oo-oo-oo-oo-oo-oo"
 					puts "#{$hitter} hit the ball out of bounds"
 					@current_game.wins_ball($def_num)
-					puts "#{$def_num}"
-					@current_game.check_status
+					puts "#{@current_game.check_status}"
+					puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
-					#return score
-					#check game status
 					switch_serve($server)
 				when "miss"
-					puts "_____________________________"
+					puts "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
 					puts "#{$defender} missed the ball!"
 					@current_game.wins_ball($hit_num)
-					puts "#{$hit_num}"
-					@current_game.check_status
+					puts "#{@current_game.check_status}"
+					puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
-					#return score
-					#check game status
 					switch_serve($server)
 
 				when "net"
-					puts "_____________________________"
+					puts "#########################"
 					puts "#{$hitter} hit the net."
 					@current_game.wins_ball($def_num)
-					puts "#{$def_num}"
-					@current_game.check_status
+					puts "#{@current_game.check_status}"
+					puts "~~~~~~~~~~~~~~~~~~~~~~~~~~"
 					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
 					#check game status
 					#return score
 					switch_serve($server)
 				when "hit"
 					puts "#{$hitter} returns the ball."
+					puts "^o_o^ ^0_0^ ^o_0^ ^o_o^ ^0_0^"
 					hitter($hitter)
 			
 				else

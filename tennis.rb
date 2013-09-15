@@ -41,8 +41,7 @@ module Tennis
     #
     # and returns game status
     def check_status
-      if @player1.points > 2 || @player2.points > 2
-        puts "checked player points = #{@player1.points}"
+      if thirty?(@player1) || thirty?(@player2)
         self.end_game(@player1, @player2)
       else
         return "Keep playing!"
@@ -53,8 +52,8 @@ module Tennis
     #if the points of either player exceed 2 the end_game method is called
     #otherwise the message "keep playing" is returned.
     #
-    def greater_than_2?(player)
-      if player.points > 2
+    def thirty?(player)
+      if player.points >= 2 
         true
       else
         false
