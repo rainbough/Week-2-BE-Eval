@@ -1,11 +1,13 @@
 require_relative 'tennis'
 
-module Game
+module Controller
 	class Game_play
 
-		#sets the status of the current game to "new"
-		def intialize
-			current_game = Game.new
+		#Creates a new game method.
+		def initialize
+			current_game = Tennis::Game.new
+			@player1 = current_game.player1
+			@player2 = current_game.player2
 	  end
 
 		#returns the string "We're playing tennis!"
@@ -40,7 +42,6 @@ module Game
 			puts "Please call 'heads' or 'tails'"
 			call = gets.chomp.downcase
 			unless call == 'heads' || call == 'tails'
-				return 'response not understood'
 				puts "resonse not understood. Hit 't' to try again."
 				response = gets.chomp.downcase
 				if response == "t"
@@ -63,12 +64,16 @@ module Game
 				puts toss_string
 				puts "you won the coin toss."
 				puts "You get to serve first."
-				#call player2_serve
+				$hitter = "player1"
+				$defender = "player2"
+				server(@player1)
 			elsif call != toss
 				puts toss_string
 				puts "you lost the coin toss."
-				puts "Your opponent (Player2) will serve first."
-				#call player1_serve
+				puts "Player2 will serve first."
+				$hitter = "player2"
+				$defender = "player1"
+				server(@player2)
 			else
 				"error"
 			end
@@ -91,50 +96,100 @@ module Game
 		#a random number between 5 and 15 is set as a net ball meaning the ball is
 		# 
 		#stopped by the net and does not make it to the other court
-		def game_action
-			random = rand(1..20)
-			net_ball = rand(3..17)
-			return "net"  if random == net_ball
-			return "oob" if random <= 3
-			return "hit" if random > 3 && random <=17
-			return "miss" if random > 17
+		def game_action(num)
 			
+			net_ball = rand(5..15)
+			return "net"  if num == net_ball
+			return "oob" if num <= 5
+			return "hit" if num > 5 && num <=15
+			return "miss" if num > 15
 		end
 
-		def hitter
+		def hitter(hitter)
+			if $hitter == "player1"
+				$hitter = "player2"
+				defender = "player1"
+				self.rally
+			else 
+				$hitter = "player1"
+				defender = "player2"
+				self.rally
+			end
 		end
 
-		def defense
 
+		#This method sets the first server of a new game.
+		#It sets it to which ever player is passed to it.
+		def server(player)
+			$server = player
+			new_serve($server)
+		end
+
+		#This method initiates a new serve and calls the rally method.
+		def new_serve(server)
+			puts "#{$hitter} serves the ball."
+			puts "hit any letter to continue 'q' to quit."
+			result = gets.chomp.downcase
+			
+			if result == 'q'
+		  	puts "exiting game"
+
+			else
+				self.rally
+			end
+		end
+
+		#This method alternates which player is the server and then passes the new
+		#server to the new_serve method.
+		def switch_serve(server)
+			if server == @player1
+				server = @player2
+			else
+				server = @player2
+			end
+			new_serve(server)
 		end
 
 		#
 		#
 		def rally
-			rally = current_game.game_action
+			num = rand(1..20)
+			rally = game_action(num)
 			case rally
-			when rally == "oob" 
-				puts "#{hitter} hit the ball out of bounds"
+				when "oob" 
+				puts "#{$hitter} hit the ball out of bounds"
 				#defense wins_ball
 				#return score
 				#check game status
-				#new serve switch servers
+				switch_serve($server)
 
-			when rally == "miss"
-				puts "#{defender} missed the ball!"
-				#hitter wins ball
-				#return score
-				#check game status
-				#new server switch servers
-			when rally == "net"
-				puts "#{hitter} hit the net."
-				#defender wins the ball
-				#check game status
-				#return score
-				#new serve switch servers
-			else rally == "hit"
-				#switch hitter and defender
-				current_game.rally
+
+				when "miss"
+					puts "#{$defender} missed the ball!"
+					#hitter wins ball
+					#return score
+					#check game status
+					#new server switch servers
+					switch_serve($server)
+				when "net"
+					puts "#{$hitter} hit the net."
+					#defender wins the ball
+					#check game status
+					#return score
+					#new serve switch servers
+					switch_serve($server)
+				when "hit"
+					puts "#{$hitter} hit the ball."
+					puts "Hit any letter to continue, 'q' to quit?"
+					response = gets.chomp.downcase
+				unless response == 'q'
+					hitter($hitter)
+				end
+			else
+					puts "#{rally} Error!!!"
+					#switch hitter and defender
+				
+				
 			end
 
 		end
@@ -143,7 +198,7 @@ module Game
 
 end
 
-game = Game::Game_play.new
+game = Controller::Game_play.new
 
 game.start
 

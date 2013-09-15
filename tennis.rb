@@ -9,8 +9,8 @@ module Tennis
     # 
 
     def initialize
-      @player1 = Player.new
-      @player2 = Player.new
+      @player1 = Player.new(1)
+      @player2 = Player.new(2)
 
       @player1.opponent = @player2
       @player2.opponent = @player1
@@ -75,11 +75,12 @@ module Tennis
 
 
   class Player
-    attr_accessor :points, :opponent
+    attr_accessor :points, :opponent, :number
 
     #initialize new player and sets points value of the player to 0
 
-    def initialize
+    def initialize(num)
+      @number = num
       @points = 0
     end
 
@@ -102,6 +103,10 @@ module Tennis
       return 'fifteen' if @points == 1
       return 'thirty' if @points == 2
       return 'forty' if @points == 3
+    end
+
+    def to_s
+      "Awesome tennis player"
     end
   end
 end
