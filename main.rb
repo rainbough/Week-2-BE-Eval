@@ -171,20 +171,20 @@ module Controller
 			if @current_game.check_status == "#{@player1} wins" ||  @current_game.check_status == "#{@player2} wins"
 				self.new_game
 			else
-				if server == @player1
-					server = @player2
+				if $server == @player1
+					$server = @player2
 					$hitter = @player2
 					$hit_num =  2
 					$defender = @player1
 					$def_num = 1
 				else
-					server = @player1
+					$server = @player1
 					$hitter = @player1
 					$hit_num = 1
 					$defender = @player2
 					$def_num = 2
 				end
-				new_serve(server)
+				new_serve($server)
 			end
 		end
 
