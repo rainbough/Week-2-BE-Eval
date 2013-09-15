@@ -9,7 +9,9 @@ module Tennis
     # 
 
     def initialize
+      puts "Player 1:"
       @player1 = Player.new
+      puts "player 2:"
       @player2 = Player.new
 
       @player1.opponent = @player2
@@ -67,22 +69,28 @@ module Tennis
     def end_game(player1, player2)
    
       return "deuce" if player1.points == player2.points
-      return "player1 wins" if player1.points >= 4 && player1.points >= player2.points + 2
-      return "player2 wins" if player2.points >= 4 && player2.points >= player1.points + 2
-      return "player1 advantage" if player1.points > player2.points
-      return "player2 advantage" if player2.points > player1.points
+      return "#{@player1} wins" if player1.points >= 4 && player1.points >= player2.points + 2
+      return "#{@player2} wins" if player2.points >= 4 && player2.points >= player1.points + 2
+      return "#{@player1}'s advantage" if player1.points > player2.points
+      return "#{@player2}'s advantage" if player2.points > player1.points
   
     end
   end
 
 
   class Player
-    attr_accessor :points, :opponent
+    attr_accessor :points, :opponent, :name
 
     #initialize new player and sets points value of the player to 0
 
     def initialize
       @points = 0
+      self.name
+    end
+
+    def name
+      puts "Please enter the name of this player."
+      @name = gets.chomp
     end
 
     #returns opponent variable for player
@@ -104,11 +112,12 @@ module Tennis
       return 'fifteen' if @points == 1
       return 'thirty' if @points == 2
       return 'forty' if @points == 3
+      return "#{@points}" if @points > 3
     end
 
     # Retruns the string "Awesome tennis player"
     def to_s
-      "Awesome tennis player"
+      "#{@name}"
     end
   end
 end
