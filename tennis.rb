@@ -34,7 +34,9 @@ module Tennis
     end
 
     # sets variables for player1 points and player 2 points
+    #
     # then passes these variables into the game_status method
+    #
     # and returns game status
     def check_status
       if greater_than_2?(@player1) || greater_than_2?(@player2)
