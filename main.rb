@@ -64,7 +64,7 @@ module Controller
 				puts toss_string
 				puts "you won the coin toss."
 				puts "You get to serve first."
-				puts "_____________________________"
+				puts "											"
 				$hitter = "player1"
 				$hit_num = 1
 				$defender = "player2"
@@ -74,7 +74,7 @@ module Controller
 				puts toss_string
 				puts "you lost the coin toss."
 				puts "Player2 will serve first."
-				puts "_____________________________"
+				puts "													"
 				$hitter = "player2"
 				$hit_num = 2
 				$defender = "player1"
@@ -143,9 +143,9 @@ module Controller
 
 		#This method initiates a new serve and calls the rally method.
 		def new_serve(server)
-			puts ">>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-			puts "#{$hitter} serves the ball."
+			puts ">>>>>>>>>>>>> #{$hitter} serves the ball >>>>>>>>>>>>>>>"
 			puts "hit any letter to continue 'q' to quit."
+			puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 			result = gets.chomp.downcase
 			
 			if result == 'q'
@@ -189,40 +189,31 @@ module Controller
 			rally = game_action(num)
 			case rally
 				when "oob" 
-					puts "oo-oo-oo-oo-oo-oo-oo-oo-oo-oo"
-					puts "#{$hitter} hit the ball out of bounds"
+					puts "oo-oo-oo-oo-oo #{$hitter} hit the ball out of bounds oo-oo-oo-oo-oo"
 					@current_game.wins_ball($def_num)
-					puts "#{@current_game.check_status}"
-					puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
+					puts "Game Status: #{@current_game.check_status}"
+					puts "Player1 score: #{@player1.score} | Player2 score: #{@player2.score}"
 					switch_serve($server)
 				when "miss"
-					puts "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
-					puts "#{$defender} missed the ball!"
+					puts "mmmmmmm #{$defender} missed the ball! mmmmmmmmmm"
 					@current_game.wins_ball($hit_num)
-					puts "#{@current_game.check_status}"
-					puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
+					puts "Game Status: #{@current_game.check_status}"
+					puts "Player1 score: #{@player1.score} | Player2 score: #{@player2.score}"
 					switch_serve($server)
 
 				when "net"
-					puts "#########################"
-					puts "#{$hitter} hit the net."
+					puts "############ #{$hitter} hit the net. ############"
 					@current_game.wins_ball($def_num)
-					puts "#{@current_game.check_status}"
-					puts "~~~~~~~~~~~~~~~~~~~~~~~~~~"
-					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
-					#check game status
-					#return score
+					puts "Game Status: #{@current_game.check_status}"
+					puts "Player1 score: #{@player1.score} | Player2 score: #{@player2.score}"
 					switch_serve($server)
 				when "hit"
-					puts "#{$hitter} returns the ball."
-					puts "^o_o^ ^0_0^ ^o_0^ ^o_o^ ^0_0^"
+					puts "^o_o^ ^0_0^ #{$hitter} returns the ball ^o_o^ ^0_0^"
+					puts "     "
 					hitter($hitter)
 			
 				else
 					puts "#{rally} Error!!!"
-					#switch hitter and defender
 				end
 				
 				
