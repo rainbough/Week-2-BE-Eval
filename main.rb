@@ -114,9 +114,9 @@ module Controller
 			
 			net_ball = rand(5..15)
 			return "net"  if num == net_ball
-			return "oob" if num <= 5
-			return "hit" if num > 5 && num <=15
-			return "miss" if num > 15
+			return "oob" if num <= 3
+			return "hit" if num > 3 && num <=17
+			return "miss" if num > 17
 		end
 
 		#This method switches which player is the hitter and which is returning the ball
