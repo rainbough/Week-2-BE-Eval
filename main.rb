@@ -5,9 +5,9 @@ module Controller
 
 		#Creates a new game method.
 		def initialize
-			current_game = Tennis::Game.new
-			@player1 = current_game.player1
-			@player2 = current_game.player2
+			@current_game = Tennis::Game.new
+			@player1 = @current_game.player1
+			@player2 = @current_game.player2
 	  end
 
 		#returns the string "We're playing tennis!"
@@ -64,15 +64,21 @@ module Controller
 				puts toss_string
 				puts "you won the coin toss."
 				puts "You get to serve first."
+				puts "_____________________________"
 				$hitter = "player1"
+				$hit_num = 1
 				$defender = "player2"
+				$def_num = 2
 				server(@player1)
 			elsif call != toss
 				puts toss_string
 				puts "you lost the coin toss."
 				puts "Player2 will serve first."
+				puts "_____________________________"
 				$hitter = "player2"
+				$hit_num = 2
 				$defender = "player1"
+				$def_num = 1
 				server(@player2)
 			else
 				"error"
@@ -105,14 +111,24 @@ module Controller
 			return "miss" if num > 15
 		end
 
+		#This method switches which player is the hitter and which is returning the ball
+		#
+		#Once a player hits the ball they become the "hitter" and the other player becomes 
+		#
+		#the defender. It also associates player number with "hitter" and "defender" so that 
+		#the score can be tracked.
 		def hitter(hitter)
 			if $hitter == "player1"
 				$hitter = "player2"
+				$hit_num = 2
 				defender = "player1"
+				$def_num = 1
 				self.rally
 			else 
 				$hitter = "player1"
+				$hit_num = 1
 				defender = "player2"
+				def_num = 2
 				self.rally
 			end
 		end
@@ -144,55 +160,73 @@ module Controller
 		def switch_serve(server)
 			if server == @player1
 				server = @player2
+				$hitter = "player2"
+				$hit_num =  2
+				$defender = "player1"
+				$def_num = 1
 			else
-				server = @player2
+				server = @player1
+				$hitter = "player1"
+				$hit_num = 1
+				$defender = "player2"
+				$def_num = 2
 			end
 			new_serve(server)
 		end
 
+		#This is the main action of the game
 		#
+		# rally calls the game_action method to determine what has happened to the ball
+		# then it uses a case statement to return results and pick next actions
 		#
 		def rally
 			num = rand(1..20)
 			rally = game_action(num)
 			case rally
 				when "oob" 
-				puts "#{$hitter} hit the ball out of bounds"
-				#defense wins_ball
-				#return score
-				#check game status
-				switch_serve($server)
-
-
-				when "miss"
-					puts "#{$defender} missed the ball!"
-					#hitter wins ball
+					puts "_____________________________"
+					puts "#{$hitter} hit the ball out of bounds"
+					@current_game.wins_ball($def_num)
+					puts "#{$def_num}"
+					@current_game.check_status
+					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
 					#return score
 					#check game status
-					#new server switch servers
 					switch_serve($server)
+				when "miss"
+					puts "_____________________________"
+					puts "#{$defender} missed the ball!"
+					@current_game.wins_ball($hit_num)
+					puts "#{$hit_num}"
+					@current_game.check_status
+					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
+					#return score
+					#check game status
+					switch_serve($server)
+
 				when "net"
+					puts "_____________________________"
 					puts "#{$hitter} hit the net."
-					#defender wins the ball
+					@current_game.wins_ball($def_num)
+					puts "#{$def_num}"
+					@current_game.check_status
+					puts "Player1 score: #{@player1.score} Player2 score: #{@player2.score}"
 					#check game status
 					#return score
-					#new serve switch servers
 					switch_serve($server)
 				when "hit"
-					puts "#{$hitter} hit the ball."
-					puts "Hit any letter to continue, 'q' to quit?"
-					response = gets.chomp.downcase
-				unless response == 'q'
+					puts "#{$hitter} returns the ball."
 					hitter($hitter)
-				end
-			else
+			
+				else
 					puts "#{rally} Error!!!"
 					#switch hitter and defender
+				end
 				
 				
 			end
 
-		end
+		
 	
 	end
 

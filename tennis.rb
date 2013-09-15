@@ -9,8 +9,8 @@ module Tennis
     # 
 
     def initialize
-      @player1 = Player.new(1)
-      @player2 = Player.new(2)
+      @player1 = Player.new
+      @player2 = Player.new
 
       @player1.opponent = @player2
       @player2.opponent = @player1
@@ -26,8 +26,10 @@ module Tennis
       
       if player_num == 1
         player1.record_won_ball!
+       
       elsif player_num == 2
         player2.record_won_ball!
+
       else
         puts "Please enter player number."
       end
@@ -39,7 +41,8 @@ module Tennis
     #
     # and returns game status
     def check_status
-      if greater_than_2?(@player1) || greater_than_2?(@player2)
+      if @player1.points > 2 || @player2.points > 2
+        puts "checked player points = #{@player1.points}"
         self.end_game(@player1, @player2)
       else
         return "Keep playing!"
@@ -75,12 +78,11 @@ module Tennis
 
 
   class Player
-    attr_accessor :points, :opponent, :number
+    attr_accessor :points, :opponent
 
     #initialize new player and sets points value of the player to 0
 
-    def initialize(num)
-      @number = num
+    def initialize
       @points = 0
     end
 
@@ -105,6 +107,7 @@ module Tennis
       return 'forty' if @points == 3
     end
 
+    # Retruns the string "Awesome tennis player"
     def to_s
       "Awesome tennis player"
     end
