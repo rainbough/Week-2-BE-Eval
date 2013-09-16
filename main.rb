@@ -1,6 +1,6 @@
 require_relative 'tennis'
 
-module Controller
+#module Controller
 	class Game_play
 
 		#Public: Initializes an object of the Game class. Designates player one and player two as attributes of the game class. Calls the call_coin_toss method.
@@ -36,14 +36,9 @@ module Controller
 			end
 			
 		end
-
-		def start
-			
-			
-		end
 	
 
-		#Interna: Asks player to call heads or tails, saves response. Calls toss_results if 'heads' or 'tails' is entered.
+		#Internal: Asks player to call heads or tails, saves response. Calls toss_results if 'heads' or 'tails' is entered.
 		#
 		def coin_toss_call
 			puts "Please call 'heads' or 'tails'"
@@ -61,7 +56,7 @@ module Controller
 			end
 		end
 
-		#toss results takes a call as argument passes it to the results of a call to the cointoss method
+		#toss-results takes a call as argument passes it to the results of a call to the cointoss method
 		#
 		#then determines a winner of the toss
 		def toss_results(call)
@@ -71,21 +66,15 @@ module Controller
 				puts toss_string
 				puts "you won the coin toss."
 				puts "You get to serve first."
-				puts "											"
-				$hitter = @player1
-				$hit_num = 1
-				$defender = @player2
-				$def_num = 2
+				puts " "
+				self.hitter2
 				server(@player1)
 			elsif call != toss
 				puts toss_string
 				puts "you lost the coin toss."
 				puts "#{@player2} will serve first."
-				puts "													"
-				$hitter = @player2
-				$hit_num = 2
-				$defender = @player1
-				$def_num = 1
+				puts " "
+				self.hitter1
 				server(@player2)
 			else
 				"error"
@@ -126,16 +115,10 @@ module Controller
 		#the score can be tracked.
 		def hitter(hitter)
 			if $hitter == @player1
-				$hitter = @player2
-				$hit_num = 2
-				$defender = @player1
-				$def_num = 1
+				self.hitter1
 				self.rally
 			else 
-				$hitter = @player1
-				$hit_num = 1
-				$defender = @player2
-				$def_num = 2
+				self.hitter2
 				self.rally
 			end
 		end
@@ -172,20 +155,30 @@ module Controller
 			else
 				if $server == @player1
 					$server = @player2
-					$hitter = @player2
-					$hit_num =  2
-					$defender = @player1
-					$def_num = 1
+					self.hitter1
+		
 				else
 					$server = @player1
-					$hitter = @player1
-					$hit_num = 1
-					$defender = @player2
-					$def_num = 2
+					self.hitter2
 				end
-				new_serve($server)
+					new_serve($server)
 			end
 		end
+
+		def hitter1
+			$hitter = @player2
+			$hit_num =  2
+			$defender = @player1
+			$def_num = 1
+		end
+
+		def hitter2
+			$hitter = @player1
+			$hit_num = 1
+			$defender = @player2
+			$def_num = 2
+		end
+
 
 		#This is the main action of the game
 		#
@@ -194,27 +187,23 @@ module Controller
 		#
 		def rally
 			num = rand(1..20)
-			rally = game_action(num)
-			case rally
+			rally_case = game_action(num)
+			case rally_case
 				when "oob" 
 					puts "oo-oo-oo-oo-oo #{$hitter} hit the ball out of bounds oo-oo-oo-oo-oo"
 					@current_game.wins_ball($def_num)
-					puts "Game Status: #{@current_game.check_status}"
-					puts "#{@player1}'s score: #{@player1.score} | #{@player2}'s score: #{@player2.score}"
-					switch_serve($server)
+					self.game_stats
+				
 				when "miss"
 					puts "mmmmmmm #{$defender} missed the ball! mmmmmmmmmm"
 					@current_game.wins_ball($hit_num)
-					puts "Game Status: #{@current_game.check_status}"
-					puts "#{@player1}'s score: #{@player1.score} | #{@player2}'s score: #{@player2.score}"
-					switch_serve($server)
-
+					self.game_stats
+					
 				when "net"
 					puts "############ #{$hitter} hit the net. ############"
 					@current_game.wins_ball($def_num)
-					puts "Game Status: #{@current_game.check_status}"
-					puts "#{@player1}'s score: #{@player1.score} | #{@player2}'s score: #{@player2.score}"
-					switch_serve($server)
+					self.game_stats
+					
 				when "hit"
 					puts "^o^o^o^o^o^ #{$defender} returns the ball ^o^o^o^o^o^"
 					puts "     "
@@ -224,15 +213,19 @@ module Controller
 					puts "#{rally} Error!!!"
 				end
 				
-				
 			end
 
-		
-	
+			def game_stats
+					puts "Game Status: #{@current_game.check_status}"
+					puts "#{@player1}'s score: #{@player1.score} | #{@player2}'s score: #{@player2.score}"
+					switch_serve($server)
+
+			end
+				
 	end
 
-end
+#end
 
-game = Controller::Game_play.new
+game = Game_play.new
 
 
