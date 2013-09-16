@@ -44,7 +44,7 @@ describe Tennis::Game do
         game.player1.points = 3
         game.player2.points = 5
       
-        expect(game.end_game(game.player1, game.player2)).to eq('player2 wins')
+        expect(game.end_game(game.player1, game.player2)).to eq("#{@player2} wins")
 
       end
     end

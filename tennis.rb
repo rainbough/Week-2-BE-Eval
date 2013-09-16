@@ -2,12 +2,11 @@ module Tennis
   class Game
     attr_accessor :player1, :player2
 
-    # initializes new tennis game and creates two players
-    #
-    # designates player 1 as opponent of player 2
-    # designates player 2 as opponent of player 1
+    #Internal: initializes new tennis game and creates two players. Designates player 1 as 
+    #          opponent of player 2. Designates player 2 as opponent of player 1
     # 
-
+    #Returns: A string of "Player 1:" followed by a new player object, then a string of 
+    #         "Player 2:"followed by a new player object.
     def initialize
       puts "Player 1:"
       @player1 = Player.new
@@ -18,11 +17,18 @@ module Tennis
       @player2.opponent = @player1
     end
 
-    #sets won ball to player number passed in and increments points for that player by 1
-    #returns and error message if 1 or 2 is not passed in.
-    #returns incremented score of player 
+    #Internal: Sets won ball to player number passed in and increments points for that
+    #          player by 1.
     #
-    #e.g. game.wins_ball(1) would add 1 to player1.points.
+    #
+    #player_num - Each player is designated a number either '1' or '2' for the entire game. The number
+    #             in integer form is passed in to the "wins_ball" method which then determines which
+    #             player to call "record_won_ball!" on.
+    #
+    #example: game.wins_ball(1) would add 1 to player1.points.
+    #
+    #Returns: Returns the string "Please enter player number" if the integer 1 or 2 is not entered.
+
     
     def wins_ball(player_num)
       
@@ -37,11 +43,12 @@ module Tennis
       end
     end
 
-    # sets variables for player1 points and player 2 points
+    #Internal: Checks to see if a points value passed in is greater than 2. If the 
+    #points of either player exceed 2('thirty' in tennis-speak) by calling the thirty? method the end_game method is called
+    #otherwise the message "keep playing" is returned.
     #
-    # then passes these variables into the game_status method
     #
-    # and returns game status
+    #
     def check_status
       if thirty?(@player1) || thirty?(@player2)
         self.end_game(@player1, @player2)
@@ -50,10 +57,11 @@ module Tennis
       end
     end
 
-    #checks to see if a points value passed in is greater than 2.
-    #if the points of either player exceed 2 the end_game method is called
-    #otherwise the message "keep playing" is returned.
+    #Internal: This method is used by the check_status method to determine if a player's score has
+    #hit 'thirty'(2 points) yet.
     #
+    #player - the player object is passed into this method. The method calls the player's point attribute
+    #         to determine if it is equal or greater to two.
     def thirty?(player)
       if player.points >= 2 
         true
@@ -62,10 +70,12 @@ module Tennis
       end
     end
 
-    #end_game is called from check status and implements the point system of the later part of the game.
+    #Internal: end_game is called from check status and implements the point system of the later part of the game.
     #
+    #player1 - The player1 object
     #
-
+    #player2 - The player2 object
+    #
     def end_game(player1, player2)
    
       return "deuce" if player1.points == player2.points
@@ -81,7 +91,7 @@ module Tennis
   class Player
     attr_accessor :points, :opponent, :name
 
-    #initialize new player and sets points value of the player to 0
+    #Internal: initialize new player and sets points value of the player to 0
 
     def initialize
       @points = 0
@@ -93,20 +103,19 @@ module Tennis
       @name = gets.chomp
     end
 
-    #returns opponent variable for player
-    #expects opponent to be set by calling method
+    #Internal: returns opponent variable for player. 
     def opponent
      @opponent
     end
 
-    # Increments the score by 1.
+    #Internal: Increments the score by 1. Returns the integer value of the new score.
     #
-    # Returns the integer new score.
+    # 
     def record_won_ball!
       @points += 1
     end
 
-    # Returns the String score for the player.
+    #Internal: Returns the String score for the player.
     def score
       return 'love' if @points == 0
       return 'fifteen' if @points == 1
@@ -115,9 +124,10 @@ module Tennis
       return "#{@points}" if @points > 3
     end
 
-    # Retruns the string "Awesome tennis player"
+    #Internal: Retruns the name attributed of the player.
     def to_s
       "#{@name}"
     end
   end
 end
+

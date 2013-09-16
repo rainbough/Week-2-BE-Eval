@@ -3,7 +3,7 @@ require_relative 'tennis'
 module Controller
 	class Game_play
 
-		#Creates a new game method.
+		#Public: Initializes an object of the Game class. Designates player one and player two as attributes of the game class. Calls the call_coin_toss method.
 		def initialize
 			@current_game = Tennis::Game.new
 			@player1 = @current_game.player1
@@ -11,12 +11,12 @@ module Controller
 			self.coin_toss_call
 	  end
 
-		#returns the string "We're playing tennis!"
+		#Public: returns the string "We're playing tennis!" When the game_play object is named.
 		def to_s
 			"We're playing tennis!"
 		end
 
-		#This method is called to start a new game. It asks whether the user would like
+		#Internal: This method is called to start a new game. It asks whether the user would like
 		#
 		#to play a new game. If answer is 'y' it starts a new game. If 'n' it ends the program.
 		#
