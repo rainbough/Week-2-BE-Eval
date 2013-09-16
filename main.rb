@@ -17,10 +17,9 @@ module Controller
 		end
 
 		#Internal: This method is called to start a new game. It asks whether the user would like
+		#          to play a new game. If answer is 'y' it starts a new game. If 'n' it ends the program.
 		#
-		#to play a new game. If answer is 'y' it starts a new game. If 'n' it ends the program.
-		#
-		#It prints "response not understood" if any other response is received.
+		#returns: "response not understood" if any other response is received.
 		def new_game
 			puts "Would you like to play a new game (y or n)?"
 			answer = gets.chomp.downcase
@@ -44,7 +43,7 @@ module Controller
 		end
 	
 
-		#Asks player to call heads or tails, saves response
+		#Interna: Asks player to call heads or tails, saves response. Calls toss_results if 'heads' or 'tails' is entered.
 		#
 		def coin_toss_call
 			puts "Please call 'heads' or 'tails'"
